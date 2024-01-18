@@ -34,3 +34,5 @@ def ajout_distances(tab, personnage_inconnu):
     for personnage in tab:
         personnage['Distance'] = distance(personnage_inconnu, personnage)
     return tab
+
+print(ajout_distances(table, eleve))
