@@ -1,0 +1,32 @@
+from math import sqrt
+import csv
+
+def fusion_de_table(table_perso, caracteristique_perso):
+    with open(table_perso, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f, delimiter=";")
+        characters_tab = [{key : value.replace('\xa0', ' ') for key, value in element.items()} for element in reader]
+
+    with open(caracteristique_perso, mode='r', encoding='utf-8') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        characteristics_tab = [{key : value for key, value in element.items()} for element in reader]
+
+    poudlard_characters = []
+
+    for poudlard_character in characteristics_tab:
+        for kaggle_character in characters_tab:
+            if poudlard_character['Name'] == kaggle_character['Name']:
+                poudlard_character.update(kaggle_character)
+                poudlard_characters.append(poudlard_character)
+
+    return poudlard_characters
+
+table = fusion_de_table("Characters.csv", "Caracteristiques_des_persos.csv")
+
+eleve = {"Courage" : 9, "Ambition" : 7, "Intelligence" : 3, "Good" : 8}
+
+def distance(eleve, pers, methode="euclidienne"):
+    return sqrt((int(eleve["Courage"]) - int(pers["Courage"])) ** 2
+                + (int(eleve["Ambition"]) - int(pers["Ambition"])) ** 2
+                + (int(eleve["Intelligence"]) - int(pers["Intelligence"])) ** 2
+                + (int(eleve["Good"]) - int(pers["Good"])) ** 2)
+
