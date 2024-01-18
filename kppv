@@ -30,3 +30,7 @@ def distance(eleve, pers, methode="euclidienne"):
                 + (int(eleve["Intelligence"]) - int(pers["Intelligence"])) ** 2
                 + (int(eleve["Good"]) - int(pers["Good"])) ** 2)
 
+def ajout_distances(tab, personnage_inconnu):
+    for personnage in tab:
+        personnage['Distance'] = distance(personnage_inconnu, personnage)
+    return tab
