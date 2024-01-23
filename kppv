@@ -24,15 +24,38 @@ table = fusion_de_table("Characters.csv", "Caracteristiques_des_persos.csv")
 
 eleve = {"Courage" : 9, "Ambition" : 7, "Intelligence" : 3, "Good" : 8}
 
+
 def distance(eleve, pers, methode="euclidienne"):
     return sqrt((int(eleve["Courage"]) - int(pers["Courage"])) ** 2
                 + (int(eleve["Ambition"]) - int(pers["Ambition"])) ** 2
                 + (int(eleve["Intelligence"]) - int(pers["Intelligence"])) ** 2
                 + (int(eleve["Good"]) - int(pers["Good"])) ** 2)
 
-def ajout_distances(tab, personnage_inconnu):
-    for personnage in tab:
+def ajout_distances(table, personnage_inconnu):
+    for personnage in table:
         personnage['Distance'] = distance(personnage_inconnu, personnage)
-    return tab
+    return table
 
-print(ajout_distances(table, eleve))
+table_avec_distance = ajout_distances(table, eleve)
+
+table_avec_distance.sort(key=lambda x: x['Distance'])
+
+k = 5
+print(table_avec_distance[:k])
+
+def maison_choisie(table):
+    maisons = {}
+    for voisin in table:
+        if voisin['House'] in maisons:
+            maisons[voisin['House']] += 1
+        else:
+            maisons[voisin['House']] = 1
+    print(maisons)
+    maximum = 0
+    for maison, nb in maisons.items():
+        if nb > maximum:
+            maximum = nb
+            top_maison = maison
+    return top_maison
+
+maison_choisie(table_avec_distance)

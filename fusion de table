@@ -1,4 +1,5 @@
 import csv
+from math import sqrt
 
 def fusion_de_table(table_perso, caracteristique_perso):
     with open(table_perso, mode='r', encoding='utf-8') as f:
@@ -19,4 +20,3 @@ def fusion_de_table(table_perso, caracteristique_perso):
 
     return poudlard_characters
 
-print(fusion_de_table("Characters.csv", "Caracteristiques_des_persos.csv"))
