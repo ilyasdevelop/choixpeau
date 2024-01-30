@@ -20,69 +20,77 @@ def fusion_de_table(table_perso, caracteristique_perso):
 
     return poudlard_characters
 
-
-
-index_eleves = {  
-"eleve_1" : {"Courage" : 9, "Ambition" : 2, "Intelligence" : 8, "Good" : 9},
-"eleve_2" : {"Courage" : 6, "Ambition" : 7, "Intelligence" : 9, "Good" : 7},
-"eleve_3" : {"Courage" : 3, "Ambition" : 8, "Intelligence" : 6, "Good" : 3},
-"eleve_4" : {"Courage" : 2, "Ambition" : 3, "Intelligence" : 7, "Good" : 8},
-"eleve_5" : {"Courage" : 3, "Ambition" : 4, "Intelligence" : 8, "Good" : 8}
+PERSONNAGES = fusion_de_table("Characters.csv", "Caracteristiques_des_persos.csv")
+ELEVES = {  
+    "eleve_1" : {"Courage" : 9, "Ambition" : 2, "Intelligence" : 8, "Good" : 9},
+    "eleve_2" : {"Courage" : 6, "Ambition" : 7, "Intelligence" : 9, "Good" : 7},
+    "eleve_3" : {"Courage" : 3, "Ambition" : 8, "Intelligence" : 6, "Good" : 3},
+    "eleve_4" : {"Courage" : 2, "Ambition" : 3, "Intelligence" : 7, "Good" : 8},
+    "eleve_5" : {"Courage" : 3, "Ambition" : 4, "Intelligence" : 8, "Good" : 8}
 }
+eleves = [Eleve(name, data["Courage"], data["Ambition"], data["Intelligence"], data["Good"]) for name, data in ELEVES.items()]
 
-def distance(eleve, personnage, index, methode="euclidienne"):
-    return sqrt((int(index[eleve]["Courage"]) - int(personnage["Courage"])) ** 2
-                + (int(index[eleve]["Ambition"]) - int(personnage["Ambition"])) ** 2
-                + (int(index[eleve]["Intelligence"]) - int(personnage["Intelligence"])) ** 2
-                + (int(index[eleve]["Good"]) - int(personnage["Good"])) ** 2)
+class Eleve:
+    def __init__(self, *args):
+        self.name, self.courage, self.ambition, self.intelligence, self.good = args
+        self.distances = [{personnage['Name']: distance(self, personnage)} for personnage in PERSONNAGES]
+        self.distances.sort(key=lambda name, distance: distance)
+        k = 5
+        voisins = self.distances[:k]
 
-def ajout_distances(table, personnage_inconnu, index):
-    for personnage in table:
-        personnage['Distance'] = distance(personnage_inconnu, personnage, index)
-    return table
+        self.maison = maison_choisie(voisins)
+
+    def __str__(self):
+        return f"{self.name.title()} est envoyé à la maison {self.maison}."
+
+
+def distance(eleve, personnage, methode="euclidienne"):
+    return sqrt((int(eleve.courage) - int(personnage["Courage"])) ** 2
+                + (int(eleve.ambition) - int(personnage["Ambition"])) ** 2
+                + (int(eleve.intelligence) - int(personnage["Intelligence"])) ** 2
+                + (int(eleve.good) - int(personnage["Good"])) ** 2)
 
 def maison_choisie(table):
     maisons = {}
+
     for voisin in table:
         if voisin['House'] in maisons:
             maisons[voisin['House']] += 1
         else:
             maisons[voisin['House']] = 1
+
     print(maisons)
+    
     maximum = 0
     for maison, nb in maisons.items():
         if nb > maximum:
             maximum = nb
             top_maison = maison
+
     return top_maison
 
-def maison(index_eleves, table_personnages):
+def maison(table_personnages):
     for eleve in index_eleves.keys():
-        table_avec_distance = ajout_distances(table_personnages, eleve, index_eleves)
+        table_avec_distance = ajout_distances(table_personnages, eleve)
         table_avec_distance.sort(key=lambda x: x['Distance'])
         k = 5
         voisins = table_avec_distance[:k]
         plus_proche_voisins = maison_choisie(voisins)
         print(f"l'élève {eleve} est envoyé à la maison {plus_proche_voisins}")
 
-
-
-
 def ihm():
-    question = input("Pour quel élève souhaitez vous connaitre la maison : \n"
-                    "eleve 1 -> Courage : 9, Ambition : 2, Intelligence : 8, Good : 9\n"
-                    "eleve 2 -> Courage : 6, Ambition : 7, Intelligence : 9, Good: 7\n"
-                    "eleve 3 -> Courage : 3, Ambition : 8, Intelligence : 6, Good: 3\n"
-                    "eleve 4 -> Courage : 2, Ambition : 3, Intelligence : 7, Good : 8\n"
-                    "eleve 5 -> Courage : 3, Ambition : 4, Intelligence : 8, Good : 8\n")
+    texte = """Pour quel élève souhaitez vous connaitre la maison :
+    eleve 1 -> Courage : 9, Ambition : 2, Intelligence : 8, Good : 9
+    eleve 2 -> Courage : 6, Ambition : 7, Intelligence : 9, Good: 7
+    eleve 3 -> Courage : 3, Ambition : 8, Intelligence : 6, Good: 3
+    eleve 4 -> Courage : 2, Ambition : 3, Intelligence : 7, Good : 8
+    eleve 5 -> Courage : 3, Ambition : 4, Intelligence : 8, Good : 8"""
+
+    question = input(texte)
+
     while question in ('1', '2', '3', '4', '5'):
-        table_personnages = fusion_de_table("Characters.csv", "Caracteristiques_des_persos.csv")
-        maison(index_eleves, table_personnages)
-        question = input("Pour quel élève souhaitez vous connaitre la maison :\n"
-                    "eleve 1 -> Courage : 9, Ambition : 2, Intelligence : 8, Good : 9"
-                    "eleve 2 -> Courage : 6, Ambition : 7, Intelligence : 9, Good: 7"
-                    "eleve 3 -> Courage : 3, Ambition : 8, Intelligence : 6, Good: 3"
-                    "eleve 4 -> Courage : 2, Ambition : 3, Intelligence : 7, Good : 8"
-                    "eleve 5 -> Courage : 3, Ambition : 4, Intelligence : 8, Good : 8")
+        maison(PERSONNAGES)
+        question = input(texte)
+        
 
 ihm()
