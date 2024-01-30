@@ -28,20 +28,7 @@ ELEVES = {
     "eleve_4" : {"Courage" : 2, "Ambition" : 3, "Intelligence" : 7, "Good" : 8},
     "eleve_5" : {"Courage" : 3, "Ambition" : 4, "Intelligence" : 8, "Good" : 8}
 }
-eleves = [Eleve(name, data["Courage"], data["Ambition"], data["Intelligence"], data["Good"]) for name, data in ELEVES.items()]
-
-class Eleve:
-    def __init__(self, *args):
-        self.name, self.courage, self.ambition, self.intelligence, self.good = args
-        self.distances = [{personnage['Name']: distance(self, personnage)} for personnage in PERSONNAGES]
-        self.distances.sort(key=lambda name, distance: distance)
-        k = 5
-        voisins = self.distances[:k]
-
-        self.maison = maison_choisie(voisins)
-
-    def __str__(self):
-        return f"{self.name.title()} est envoyé à la maison {self.maison}."
+K = 5
 
 
 def distance(eleve, personnage, methode="euclidienne"):
@@ -92,5 +79,21 @@ def ihm():
         maison(PERSONNAGES)
         question = input(texte)
         
+
+
+class Eleve:
+    def __init__(self, *args):
+        self.name, self.courage, self.ambition, self.intelligence, self.good = args
+        self.distances = {personnage['Name']: distance(self, personnage) for personnage in PERSONNAGES }
+        self.distances_sorted = list(self.distances.values()).sort()
+        # à régler -> self.maison = maison_choisie(self.distances[:K])
+
+    def __str__(self):
+        return f"{self.name.title()} est envoyé à la maison {self.maison}."
+
+
+eleves = [Eleve(name, data["Courage"], data["Ambition"], data["Intelligence"], data["Good"]) for name, data in ELEVES.items()]
+for eleve in eleves:
+    print(eleve)
 
 ihm()
