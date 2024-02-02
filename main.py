@@ -1,3 +1,8 @@
+"""
+Github: https://github.com/ilyasdevelop/choixpeau
+Auteurs: Thibault, Martin, Irwan, Ilyas
+"""
+
 from math import sqrt
 from collections import Counter
 import csv
