@@ -4,6 +4,16 @@ import csv
 
 class Student:
 	def __init__(self, *args):
+		"""
+        Initialise un objet Student avec des attributs spécifiques et calcule les distances et voisins.
+
+        Entrée:
+        - args (tuple): Les caractéristiques de l'élève (nom, courage, ambition, intelligence, good).
+
+        Sortie:
+        Aucune.
+        """
+
 		self.name, self.courage, self.ambition, self.intelligence, self.good = args
 		self.distances = {ch['Name']: {"Distance": self.distance(ch), "House": ch["House"]} for ch in CHARACTERS}
 		self.closests = sorted(self.distances.items(), key=lambda x: x[1]["Distance"])[:K]
@@ -23,9 +33,27 @@ class Student:
 					break
 
 	def __str__(self) -> str:
+		"""
+        Formate l'objet Student en une chaîne de caractères.
+
+        Entrée:
+        Aucune.
+
+        Sortie:
+        - str: La représentation en chaîne de caractères de l'objet Student.
+        """
 		return f"Élève {self.name} est envoyé à la maison {self.house.title()}{RESET}.\nSes 5 plus proches voisins sont, dans l'ordre:\n{self.text_closests}"
 
 	def distance(self, character: dict) -> float:
+		"""
+        Calcule la distance euclidienne entre l'élève et un personnage donné.
+
+        Entrée:
+        - character (dict): Les caractéristiques du personnage.
+
+        Sortie:
+        - float: La distance euclidienne.
+        """
 		return sqrt((int(self.courage) - int(character["Courage"])) ** 2
 			+ (int(self.ambition) - int(character["Ambition"])) ** 2
 			+ (int(self.intelligence) - int(character["Intelligence"])) ** 2
@@ -33,11 +61,30 @@ class Student:
 
 
 def read_csv(file: str) -> list[dict]:
+	"""
+	Fonction permettant simplement de lire un fichier csv et de former une table a partir de ce fichier
+
+	Entrée:
+	- file (str) : le nom du fichier qu'on souhaite ouvrir
+
+	Sortie :
+	- une table (dict) : le csv transformé en table
+	"""
 	with open(file, mode='r', encoding='utf-8') as f:
 		reader = csv.DictReader(f, delimiter=";")
 		return [{key : value.replace('\xa0', ' ') for key, value in element.items()} for element in reader]
 
 def merge(characters: str, attributes: str) -> list[dict]:
+	"""
+    Fusionne les données de deux fichiers CSV en fonction du nom et retourne une liste de dictionnaires.
+
+    Entrée:
+    - characters (str): Le chemin du fichier CSV contenant les personnages.
+    - attributes (str): Le chemin du fichier CSV contenant les caractéristiques des personnages.
+
+    Sortie:
+    - list[dict]: La liste des dictionnaires représentant les personnages avec leurs caractéristiques.
+    """
 	poudlard_characters = []
 
 	for poudlard_character in read_csv(attributes):
@@ -49,6 +96,15 @@ def merge(characters: str, attributes: str) -> list[dict]:
 	return poudlard_characters
 
 def main():
+	"""
+    Fonction principale du programme qui gère l'interaction utilisateur.
+
+    Entrée:
+    Aucune.
+
+    Sortie:
+    Aucune.
+    """
 	print(TEXTE_IHM, end="")
 	student_id = input()
 
