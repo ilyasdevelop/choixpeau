@@ -19,16 +19,14 @@ __init__: |
     # Vérification s'il y a une égalité dans le nombre de voisins par maison
     maisons_ont_egalite = len(ensemble(maisons.values())) != len(maisons.values())
 
-    # Si une égalité est présente, ajustement de la maison attribuée en fonction du nombre total
-    # de voisins pour chaque maison
+    # Si une égalité est présente, ajustement de la maison attribuée en fonction du nombre total de voisins pour chaque maison
     SI maisons_ont_egalite :
         compte_maison = {}
         POUR _, attr DANS self.closests :
             compte_maison[attr["House"]] = compte_maison.get(attr["House"], 0) + 1
-
             SI compte_maison[attr["House"]] == maisons[max(maisons, clé=maisons.get)] :
                 self.house = attr["House"]
-                FIN POUR
+        FIN POUR
                 
 distance: |
   FONCTION distance(self, character: dict) -> float :
@@ -64,34 +62,19 @@ merge: |
 
     # Parcours des caractéristiques Poudlard
     POUR poudlard_character DANS read_csv(attributes) :
-        # Parcours des personnages Kaggle
         POUR kaggle_character DANS read_csv(characters) :
-            # Vérification si le nom du personnage correspond
             SI poudlard_character['Name'] == kaggle_character['Name'] :
-                # Met à jour les caractéristiques Poudlard avec les données Kaggle
                 poudlard_character.mettre_à_jour(kaggle_character)
-                
-                # Ajoute le personnage fusionné à la liste
                 poudlard_characters.append(poudlard_character)
-
-    # Retourne la liste des personnages fusionnés
+        FIN POUR 
+   FIN POUR
     RETOURNER poudlard_characters
 
 main: |
   Fonction principale main() :
-    # Affiche le texte de l'IHM
     imprimer(TEXTE_IHM, fin="")
-
-    # Demande à l'utilisateur d'entrer l'identifiant de l'élève
     student_id = entrée()
-
-    # Continue tant que l'identifiant est valide
     TANT QUE student_id DANS ('1', '2', '3', '4', '5') OU len(student_id.split(" ")) == 4 :
-        # Affiche les informations de l'élève en fonction de l'identifiant
         imprimer(students[int(student_id) - 1] SI len(student_id) == 1 SINON Student("personnalisé", *student_id.split(" ")))
-
-        # Demande à l'utilisateur d'entrer un nouvel identifiant
-        student_id = entrée(f"{JAUNE}>>> Élève n°")
-
-    # Affiche un message de départ
+    FIN TANT QUE 
     imprimer("Au revoir!")
