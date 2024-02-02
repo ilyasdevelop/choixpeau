@@ -12,3 +12,7 @@ python3 main.py
 ##### Pseudo-codes
 
 Les pseudo-codes se trouvent dans [pseudo-codes.yml](pseudo-codes.yml)
+
+##### License
+
+Le projet est sous [license](LICENSE) Unlicense
