@@ -3,6 +3,24 @@ from collections import Counter
 import csv
 
 class Student:
+	"""
+	Représente un étudiant dans le monde des sorciers, affecté à une maison en fonction de ses traits de personnalité.
+
+	Attributs:
+		name (str): Le nom de l'étudiant.
+		courage (int): Le niveau de courage de l'étudiant.
+		ambition (int): Le niveau d'ambition de l'étudiant.
+		intelligence (int): Le niveau d'intelligence de l'étudiant.
+		good (int): Le niveau de bonté de l'étudiant.
+		distances (dict): Un dictionnaire contenant les distances entre l'étudiant et les autres personnages.
+		closest (list): Une liste des personnages les plus proches triés par distance.
+		house (str): La maison assignée à l'étudiant.
+
+	Méthodes:
+		__init__: Initialise une nouvelle instance de la classe Eleve.
+		__str__: Retourne une représentation en chaîne de caractères de l'étudiant et de sa maison attribuée.
+		distance: Calcule la distance euclidienne entre l'étudiant et un personnage donné en fonction de ses traits.
+	"""
 	def __init__(self, *args):
 		"""
         Initialise un objet Student avec des attributs spécifiques et calcule les distances et voisins.
