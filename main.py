@@ -124,11 +124,11 @@ def main():
 	Aucune.
 	"""
 	print(TEXTE_IHM, end="")
-	student_id = input()
+	student_id = input(f"{YELLOW}>>> Éleve n°")  # Pas de reset pour garder la couleur pour l'entrée et jusqu'à la prochaine ligne
 
 	while student_id in ('1', '2', '3', '4', '5') or len(student_id.split(" ")) == 4:
 		print(students[int(student_id) - 1] if len(student_id) == 1 else Student("personnalisé", *student_id.split(" ")))
-		student_id = input(f"{YELLOW}>>> Éleve n°")
+		student_id = input(f"\n{YELLOW}>>> Éleve n°")
 	
 	print("Au revoir!")
 
@@ -155,7 +155,8 @@ Pour quel élève souhaitez vous connaitre la maison ?
 Éleve {YELLOW}5{RESET} -> Courage : {BLUE}3{RESET}, Ambition : {BLUE}4{RESET}, Intelligence : {BLUE}8{RESET}, Good : {BLUE}8{RESET}
 Vous pouvez aussi entrer des caractéristiques personnalisées sous cette forme: {YELLOW}x x x x{RESET}
 Toute autre entrée terminera le programme
-{YELLOW}>>> Éleve n°""" # Pas de reset pour garder la couleur pour l'entrée et jusqu'à la prochaine ligne
+
+"""
 K = 5
 
 if __name__ == '__main__':
