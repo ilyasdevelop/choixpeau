@@ -23,14 +23,14 @@ class Student:
 	"""
 	def __init__(self, *args):
 		"""
-        Initialise un objet Student avec des attributs spécifiques et calcule les distances et voisins.
+		Initialise un objet Student avec des attributs spécifiques et calcule les distances et voisins.
 
-        Entrée:
-        - args (tuple): Les caractéristiques de l'élève (nom, courage, ambition, intelligence, good).
+		Entrée:
+		- args (tuple): Les caractéristiques de l'élève (nom, courage, ambition, intelligence, good).
 
-        Sortie:
-        Aucune.
-        """
+		Sortie:
+		Aucune.
+		"""
 
 		self.name, self.courage, self.ambition, self.intelligence, self.good = args
 		self.distances = {ch['Name']: {"Distance": self.distance(ch), "House": ch["House"]} for ch in CHARACTERS}
@@ -52,26 +52,26 @@ class Student:
 
 	def __str__(self) -> str:
 		"""
-        Formate l'objet Student en une chaîne de caractères.
+		Formate l'objet Student en une chaîne de caractères.
 
-        Entrée:
-        Aucune.
+		Entrée:
+		Aucune.
 
-        Sortie:
-        - str: La représentation en chaîne de caractères de l'objet Student.
-        """
+		Sortie:
+		- str: La représentation en chaîne de caractères de l'objet Student.
+		"""
 		return f"Élève {self.name} est envoyé à la maison {self.house.title()}{RESET}.\nSes 5 plus proches voisins sont, dans l'ordre:\n{self.text_closests}"
 
 	def distance(self, character: dict) -> float:
 		"""
-        Calcule la distance euclidienne entre l'élève et un personnage donné.
+		Calcule la distance euclidienne entre l'élève et un personnage donné.
 
-        Entrée:
-        - character (dict): Les caractéristiques du personnage.
+		Entrée:
+		- character (dict): Les caractéristiques du personnage.
 
-        Sortie:
-        - float: La distance euclidienne.
-        """
+		Sortie:
+		- float: La distance euclidienne.
+		"""
 		return sqrt((int(self.courage) - int(character["Courage"])) ** 2
 			+ (int(self.ambition) - int(character["Ambition"])) ** 2
 			+ (int(self.intelligence) - int(character["Intelligence"])) ** 2
@@ -94,15 +94,15 @@ def read_csv(file: str) -> list[dict]:
 
 def merge(characters: str, attributes: str) -> list[dict]:
 	"""
-    Fusionne les données de deux fichiers CSV en fonction du nom et retourne une liste de dictionnaires.
+	Fusionne les données de deux fichiers CSV en fonction du nom et retourne une liste de dictionnaires.
 
-    Entrée:
-    - characters (str): Le chemin du fichier CSV contenant les personnages.
-    - attributes (str): Le chemin du fichier CSV contenant les caractéristiques des personnages.
+	Entrée:
+	- characters (str): Le chemin du fichier CSV contenant les personnages.
+	- attributes (str): Le chemin du fichier CSV contenant les caractéristiques des personnages.
 
-    Sortie:
-    - list[dict]: La liste des dictionnaires représentant les personnages avec leurs caractéristiques.
-    """
+	Sortie:
+	- list[dict]: La liste des dictionnaires représentant les personnages avec leurs caractéristiques.
+	"""
 	poudlard_characters = []
 
 	for poudlard_character in read_csv(attributes):
@@ -115,14 +115,14 @@ def merge(characters: str, attributes: str) -> list[dict]:
 
 def main():
 	"""
-    Fonction principale du programme qui gère l'interaction utilisateur.
+	Fonction principale du programme qui gère l'interaction utilisateur.
 
-    Entrée:
-    Aucune.
+	Entrée:
+	Aucune.
 
-    Sortie:
-    Aucune.
-    """
+	Sortie:
+	Aucune.
+	"""
 	print(TEXTE_IHM, end="")
 	student_id = input()
 

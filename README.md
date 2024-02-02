@@ -9,8 +9,6 @@ cd choixpeau
 python3 main.py
 ```
 
-## à faire
-[x] README.md
-[ ] Validation croisée
-[ ] Docstrings et pseudo-code
-[ ] Mettre en zip (kPPV_NOM1_NOM2_NOM3_NOM4.zip) et envoyer
+##### Pseudo-codes
+
+Les pseudo-codes se trouvent dans [pseudo-codes.yml](pseudo-codes.yml)
